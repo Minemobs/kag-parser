@@ -7,7 +7,7 @@ function openScenarioFile(fileName: string) {
     .then(it => SHIFT_JIS_DECODER.decode(it).split("\n"));
 }
 
-const _lines = await openScenarioFile("sg1-1b");
+const _lines = await openScenarioFile("sg1-1a");
 for (let i = 0; i < _lines.length; i++) {
   const outputLines: Line[] = [];
 

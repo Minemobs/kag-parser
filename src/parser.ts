@@ -52,13 +52,12 @@ export function parseMacro(lines: string[]): [number, Macro] {
   const firstLine = lines[0]!.trim();
   const macroName = firstLine.split(" ")[0]!.substring(1);
 
-  let macro: Macro = { name: macroName, arguments: undefined };
+  let macro: Macro = { name: macroName };
   let offset = 1;
 
   switch (macroName as Macros) {
     //Multiline macros:
     case "if":
-      console.log("[LOG]: Found if");
       const [_offset, _macro] = parseIfElse(lines);
       offset += _offset;
       macro = _macro;
@@ -88,7 +87,6 @@ export function parseMacro(lines: string[]): [number, Macro] {
       break;
     default:
       console.warn(`Unknown macro: ${macroName}`);
-      console.warn("\t '%s'", lines[0]?.trim() ?? "");
       break;
   }
   return [offset - 1, macro];
@@ -104,9 +102,7 @@ export function parseIfElse(lines: string[]): [number, IfMacro | ElseMacro] {
   for (; i < lines.length; i++) {
     const line = lines[i]!.trim();
     if(line.length === 0) continue;
-    console.log("[LOG-%d]: Length: %d, Line: '%s'", i - 1, lines.length, line);
     if(line.startsWith("@else")) {
-      console.log("Found else");
       const [offset, _elseMacro] = parseIfElse(lines.slice(i));
       elseMacro = _elseMacro;
       i += offset;

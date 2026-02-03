@@ -1,4 +1,4 @@
-import type { Command, ElseMacro, IfMacro, Line, Macro } from "../src/types";
+import type { Command, ElseMacro, IfMacro, Line } from "../src/types";
 
 export class ExpressionBuilder {
   expressions: Line[];
@@ -14,23 +14,23 @@ export class ExpressionBuilder {
 
   ifNoElse(condition: string, expr: ExpressionBuilder): this {
     this.expressions.push(
-      { name: "if", condition, inner: expr.expressions } as IfMacro,
-      { name: "endif", arguments: undefined }
+      { name: "if", condition, inner: expr.expressions, arguments: { "exp": condition } } as IfMacro,
+      { name: "endif" }
     )
     return this;
   }
 
   ifElse(condition: string, ifExpr: ExpressionBuilder, elseExpr: ExpressionBuilder): this {
-    const elseMacro: ElseMacro = { name: "else", arguments: undefined, inner: elseExpr.expressions };
+    const elseMacro: ElseMacro = { name: "else", inner: elseExpr.expressions };
     this.expressions.push(
-      { name: "if", condition, elseMacro, inner: ifExpr.expressions } as IfMacro,
-      { name: "endif", arguments: undefined }
+      { name: "if", condition, elseMacro, inner: ifExpr.expressions, arguments: { "exp": condition } } as IfMacro,
+      { name: "endif" }
     );
     return this;
   }
 
   input(): this {
-    this.expressions.push({ name: "input", arguments: undefined });
+    this.expressions.push({ name: "input" });
     return this;
   }
 

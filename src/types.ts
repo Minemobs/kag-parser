@@ -7,7 +7,7 @@ export interface Command {
 
 export interface Macro {
   name: string;
-  arguments: Record<string, string> | undefined;
+  arguments?: Record<string, string>;
 };
 
 export interface MultilineMacro extends Macro {
