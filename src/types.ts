@@ -21,4 +21,4 @@ export interface IfMacro extends MultilineMacro {
 
 export interface ElseMacro extends MultilineMacro {}
 
-export type Macros = "if" | "set" | "play" | "input" | "draw" | "else" | "endif" | "stop" | "clear" | "gameover" | "goto";
+export type Macros = "if" | "set" | "play" | "input" | "draw" | "else" | "endif" | "stop" | "clear" | "gameover" | "goto" | "chse";

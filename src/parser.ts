@@ -79,6 +79,11 @@ export function parseMacro(lines: string[]): [number, Macro] {
       console.warn("\tStarts with: '%s'\n\t%s\n", lines[0]?.trim() ?? "", lines[1]?.trim() ?? "");
       break;
 
+    // Specific cases
+    case "chse":
+      macro.arguments = { status: firstLine.split(" ")[1]!};
+      break;
+    
     //One line macro w/o arguments or unknown macro
     case "input":
     case "stop":
@@ -86,7 +91,9 @@ export function parseMacro(lines: string[]): [number, Macro] {
     case "gameover":
       break;
     default:
-      console.warn(`Unknown macro: ${macroName}`);
+      macro.arguments = parseMacroArguments(firstLine);
+      if(Bun.env["IGNORE_UNKNOWN_MACRO"] === undefined)
+        console.warn(`Unknown macro: ${macroName}`);
       break;
   }
   return [offset - 1, macro];
