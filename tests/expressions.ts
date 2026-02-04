@@ -14,8 +14,7 @@ export class ExpressionBuilder {
 
   ifNoElse(condition: string, expr: ExpressionBuilder): this {
     this.expressions.push(
-      { name: "if", condition, inner: expr.expressions, arguments: { "exp": condition } } as IfMacro,
-      { name: "endif" }
+      { name: "if", condition, inner: expr.expressions, arguments: { "exp": condition } } as IfMacro
     )
     return this;
   }
@@ -23,8 +22,7 @@ export class ExpressionBuilder {
   ifElse(condition: string, ifExpr: ExpressionBuilder, elseExpr: ExpressionBuilder): this {
     const elseMacro: ElseMacro = { name: "else", inner: elseExpr.expressions };
     this.expressions.push(
-      { name: "if", condition, elseMacro, inner: ifExpr.expressions, arguments: { "exp": condition } } as IfMacro,
-      { name: "endif" }
+      { name: "if", condition, elseMacro, inner: ifExpr.expressions, arguments: { "exp": condition } } as IfMacro
     );
     return this;
   }
@@ -64,12 +62,3 @@ export class CommandBuilder extends ExpressionBuilder {
     return JSON.stringify(this.build());
   }
 }
-
-// console.log(new ExpressionBuilder().set("message", "Hello World").toJSON());
-console.log(new CommandBuilder(["phone", "p"])
-  .ifElse("tf.phone == 0",
-    new ExpressionBuilder().set("tf.phone", "1"),
-    new ExpressionBuilder().input()
-  )
-  .set("Hello", "World")
-  .toJSON());

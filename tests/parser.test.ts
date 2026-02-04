@@ -46,4 +46,30 @@ describe("Basic parsing test", () => {
         .expressions[0]! as Macro
     );
   });
+  test("Parse nested if else", () => {
+    const rawText = `
+      @if exp="pos == 0"
+        @if exp="level == 1"
+          @set name="level" value="3"
+        @else
+          @set name="level" value="1"
+        @endif
+        @set name="pos" value="1"
+      @else
+        @input
+      @endif
+    `.trim().split("\n");
+    expect(parseMacro(rawText)[1]!).toStrictEqual(
+      new ExpressionBuilder()
+        .ifElse("pos == 0",
+          new ExpressionBuilder()
+            .ifElse("level == 1",
+              new ExpressionBuilder().set("level", "3"),
+              new ExpressionBuilder().set("level", "1")
+            )
+            .set("pos", "1"),
+          new ExpressionBuilder().input()
+        )
+        .expressions[0]! as Macro);
+  });
 });

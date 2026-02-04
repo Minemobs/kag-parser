@@ -100,6 +100,7 @@ export function parseMacro(lines: string[]): [number, Macro] {
 }
 
 export function parseIfElse(lines: string[]): [number, IfMacro | ElseMacro] {
+  //TODO: nested ifs
   const rawMacro = lines[0]!.trim();
   const name = rawMacro.split(" ")[0]!.substring(1) as "if" | "else";
   const args = parseMacroArguments(rawMacro);
@@ -116,7 +117,7 @@ export function parseIfElse(lines: string[]): [number, IfMacro | ElseMacro] {
       break;
     }
     if(line.startsWith("@endif")) {
-      i++;
+      i += 2;
       break;
     }
     switch(line[0]) {
