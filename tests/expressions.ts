@@ -14,7 +14,7 @@ export class ExpressionBuilder {
 
   ifNoElse(condition: string, expr: ExpressionBuilder): this {
     this.expressions.push(
-      { name: "if", condition, inner: expr.expressions, arguments: { "exp": condition } } as IfMacro
+      { name: "if", condition, elseMacro: undefined, inner: expr.expressions, arguments: { "exp": condition } } as IfMacro
     )
     return this;
   }

@@ -16,7 +16,7 @@ export interface MultilineMacro extends Macro {
 
 export interface IfMacro extends MultilineMacro {
   condition: string;
-  elseMacro?: ElseMacro;
+  elseMacro: ElseMacro | undefined;
 };
 
 export interface ElseMacro extends MultilineMacro {}

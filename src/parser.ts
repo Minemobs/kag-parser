@@ -113,11 +113,11 @@ export function parseIfElse(lines: string[]): [number, IfMacro | ElseMacro] {
     if(line.startsWith("@else")) {
       const [offset, _elseMacro] = parseIfElse(lines.slice(i));
       elseMacro = _elseMacro;
-      i += offset;
+      i += offset + 1;
       break;
     }
     if(line.startsWith("@endif")) {
-      i += 2;
+      i += 1;
       break;
     }
     switch(line[0]) {

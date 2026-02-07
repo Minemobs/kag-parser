@@ -8,7 +8,7 @@ function openScenarioFile(fileName: string) {
 }
 
 async function parseFile() {
-  const _lines = await openScenarioFile(Bun.argv[2] ?? "sg1-1a.txt");
+  const _lines = await openScenarioFile(Bun.env["SCENARIO_FILE"] ?? "sg1-1a.txt");
   const outputLines: Line[] = [];
   for (let i = 0; i < _lines.length; i++) {
 
@@ -30,8 +30,6 @@ async function parseFile() {
         outputLines.push(cmd[1]);
         // console.log("\n" + `Found Command: ${JSON.stringify(cmd[1])}` + "\n");
         break;
-      case "[":
-        throw new Error("Macro definition aren't supported");
       case ';':
         // Ignore comments
         break;

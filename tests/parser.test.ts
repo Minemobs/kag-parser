@@ -50,7 +50,10 @@ describe("Basic parsing test", () => {
     const rawText = `
       @if exp="pos == 0"
         @if exp="level == 1"
-          @set name="level" value="3"
+          @input
+          @if exp="1 == 1"
+            @set name="level" value="3"
+          @endif
         @else
           @set name="level" value="1"
         @endif
@@ -59,12 +62,16 @@ describe("Basic parsing test", () => {
         @input
       @endif
     `.trim().split("\n");
-    expect(parseMacro(rawText)[1]!).toStrictEqual(
+    const macro = parseMacro(rawText)[1]!;
+    console.log(Bun.inspect(macro, { depth: 10 }));
+    expect(macro).toStrictEqual(
       new ExpressionBuilder()
         .ifElse("pos == 0",
           new ExpressionBuilder()
             .ifElse("level == 1",
-              new ExpressionBuilder().set("level", "3"),
+              new ExpressionBuilder().input().ifNoElse("1 == 1",
+                new ExpressionBuilder().set("level", "3")
+              ),
               new ExpressionBuilder().set("level", "1")
             )
             .set("pos", "1"),
